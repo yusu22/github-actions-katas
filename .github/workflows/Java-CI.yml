@@ -39,7 +39,8 @@ jobs:
 
   Docker-image:
     runs-on: ubuntu-latest
-    needs: Build
+    container: gradle:6-jdk11
+    needs: [Clone down, Build]
     steps:
     - name: Download code
       uses: actions/download-artifact@v1
