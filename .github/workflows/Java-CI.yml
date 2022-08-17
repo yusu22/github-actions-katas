@@ -39,7 +39,6 @@ jobs:
 
   Docker-image:
     runs-on: ubuntu-latest
-    container: gradle:6-jdk11
     needs: Build
     steps:
     - name: Download code
