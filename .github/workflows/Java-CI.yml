@@ -1,0 +1,35 @@
+name: JAVA CI
+on: push
+jobs:
+  Clone-down:
+    name: Clown down repo
+    runs-on: ubuntu-latest
+    container: gradle:6-jdk11
+    steps:
+      - uses: actions/checkout@v2
+      - name: Upload Repo
+        uses: actions/upload-artifact@v2
+        with:
+          name: code
+          path: .
+      
+  Build:
+    runs-on: ubuntu-latest
+    container: gradle:6-jdk11
+    needs: Clone-down
+    steps:
+      - name: Download code
+        uses: actions/download-artifact@v2
+        with:
+          name: code
+          path: .
+      - name: build with gradle
+        run: chmod +x ci/build-app.sh && ci/build-app.sh
+      - name: Test with gradle
+        run: chmod +x ci/unit-test-app.sh && ci/unit-test-app.sh
+      - name: Upload Repo
+        uses: actions/upload-artifact@v2
+        with: 
+          name: code
+          path: .
+      
